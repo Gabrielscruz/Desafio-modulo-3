@@ -1,1 +1,11 @@
-// TODO
+.header {
+    display: grid;
+    max-width:  720px;
+    margin: 0 auto;
+    height: 110px;
+    align-items: center;
+    justify-content: center;
+    .logo {
+      margin: 5rem auto;
+    }
+}
