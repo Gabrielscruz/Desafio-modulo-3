@@ -9,7 +9,6 @@ import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import Header from '../../components/Header';
-
 interface Post {
   first_publication_date: string | null;
   data: {
@@ -21,8 +20,10 @@ interface Post {
     last_publication_date: string | null;
     content: {
       heading: string;
-      body: string;
-    };
+      body: {
+        text: string;
+      }[];
+    }[];
   };
 }
 
@@ -78,10 +79,23 @@ export default function Post({ post }: PostProps): JSX.Element {
   );
 }
 
-export const getStaticPaths: any = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const prismic = getPrismicClient();
+  const posts = await prismic.getByType('blogpost', {
+    pageSize: 1,
+  });
+
+  const paths = posts.results.map(post => {
+    return {
+      params: {
+        slug: post.uid,
+      },
+    };
+  });
+
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths,
+    fallback: true,
   };
 };
 
