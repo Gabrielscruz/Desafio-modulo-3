@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import { MdOutlineWatchLater } from 'react-icons/md';
@@ -20,10 +21,8 @@ interface Post {
     last_publication_date: string | null;
     content: {
       heading: string;
-      body: {
-        text: string;
-      }[];
-    }[];
+      body: string;
+    };
   };
 }
 
@@ -33,10 +32,12 @@ interface PostProps {
 
 export default function Post({ post }: PostProps): JSX.Element {
   function timeRead(): number {
-    const heading = post.data.content?.heading.split(' ').join('', '');
-    const body = post.data.content?.body.split(' ').join('', '');
-    console.log(body);
-    return 1; // Math.ceil(countWords / 200);
+    const AllText = (
+      post.data.content.heading + post.data.content.body
+    ).replace(/(<([^>]+)>)/gi, '');
+    const TextArray = AllText.split(' ');
+    const countWords = TextArray.join('').length;
+    return Math.ceil(countWords / 200);
   }
   const timeToRead = timeRead();
   return (
