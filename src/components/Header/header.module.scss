@@ -1,10 +1,9 @@
 .header {
     display: grid;
     max-width:  720px;
-    margin: 0 auto;
-    height: 110px;
+    height: 200px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     .logo {
       margin: 5rem auto;
     }

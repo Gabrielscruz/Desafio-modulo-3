@@ -1,5 +1,40 @@
-.content {
-  display: flex;
-  width: 720px;
-  justify-content: center;
+
+.mais{
+  color: var(--highlight);
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+}
+.post{
+  display: grid;
+  grid-template-columns: 1fr;
+  flex: 1;
+  height: 108px;
+  margin-bottom: 40px;
+  cursor: pointer;
+  h1{
+    line-height: 2.2rem;
+    font-family: inter, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--heading);
+  }
+
+  strong {
+    color: var(--body);
+    font-family: inter, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 20px;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+
 }
