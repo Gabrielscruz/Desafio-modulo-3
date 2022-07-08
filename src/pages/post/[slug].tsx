@@ -40,12 +40,15 @@ export default function Post({ post }: PostProps): JSX.Element {
     return <h1>Carregando...</h1>;
   }
   function timeRead(): number {
-    /* const AllText = (
-      post.data.content.heading + post.data.content.body
-    ).replace(/(<([^>]+)>)/gi, '');
-    const TextArray = AllText.split(' ');
-    const countWords = TextArray.join('').length; */
-    return Math.ceil(805 / 200);
+    const AllText = post.data.content.map(item => {
+      return (
+        RichText.asHtml(item.body).replace(/(<([^>]+)>)/gi, '') +
+        item.heading.replace(/(<([^>]+)>)/gi, '')
+      );
+    });
+    const TextArray = AllText[0].split(' ');
+    const countWords = TextArray.join('').length;
+    return Math.ceil(countWords / 200);
   }
   const timeToRead = timeRead();
   return (
