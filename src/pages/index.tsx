@@ -93,7 +93,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
               onClick={() => handleLoadNextPage(next_page)}
               className={styles.mais}
             >
-              Carregar mais post
+              Carregar mais posts
             </button>
           )}
         </>
