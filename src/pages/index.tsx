@@ -59,7 +59,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
     const data = await response.json();
     const post = await formatPost(data.results);
     setPosts([...posts, ...post]);
-    setNext_page(data.next_page);
+    setNext_page(data.next_page || null);
   }
 
   return (
