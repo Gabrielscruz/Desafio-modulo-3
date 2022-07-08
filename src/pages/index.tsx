@@ -111,7 +111,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      postsPagination: { next_page: response.next_page, results: posts },
+      postsPagination: {
+        next_page: response.next_page,
+        results: posts,
+      },
     },
   };
 };
