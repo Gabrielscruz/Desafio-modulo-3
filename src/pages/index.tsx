@@ -10,7 +10,7 @@ import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
 
-interface PostProps {
+interface Post {
   uid?: string;
   first_publication_date: string | null;
   data: {
@@ -22,14 +22,14 @@ interface PostProps {
 
 interface PostPagination {
   next_page: string;
-  results: PostProps[];
+  results: Post[];
 }
 
 interface HomeProps {
   postsPagination: PostPagination;
 }
 
-function formatPost(Posts): PostProps[] {
+function formatPost(Posts): Post[] {
   const posts = Posts.map(post => {
     const first_publication_date = format(
       new Date(post.first_publication_date),
@@ -51,7 +51,7 @@ function formatPost(Posts): PostProps[] {
   return posts;
 }
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const [posts, setPosts] = useState<PostProps[]>(postsPagination.results);
+  const [posts, setPosts] = useState<Post[]>(postsPagination.results);
   const [next_page, setNext_page] = useState<string>(postsPagination.next_page);
 
   async function handleLoadNextPage(page: string): Promise<void> {
