@@ -5,10 +5,12 @@ import { MdOutlineWatchLater } from 'react-icons/md';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { RichText } from 'prismic-dom';
+import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 import Header from '../../components/Header';
+
 interface Post {
   first_publication_date: string | null;
   data: {
@@ -32,13 +34,18 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <h1>Carregando...</h1>;
+  }
   function timeRead(): number {
-    const AllText = (
+    /* const AllText = (
       post.data.content.heading + post.data.content.body
     ).replace(/(<([^>]+)>)/gi, '');
     const TextArray = AllText.split(' ');
-    const countWords = TextArray.join('').length;
-    return Math.ceil(countWords / 200);
+    const countWords = TextArray.join('').length; */
+    return Math.ceil(805 / 200);
   }
   const timeToRead = timeRead();
   return (
@@ -71,8 +78,20 @@ export default function Post({ post }: PostProps): JSX.Element {
               </time>
             </span>
           </div>
-          <h3>{post.data.content.heading}</h3>
-          <div dangerouslySetInnerHTML={{ __html: post.data.content.body }} />
+          <>
+            {post.data.content.map(item => {
+              return (
+                <div key={item.heading}>
+                  <h3>{item.heading}</h3>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: RichText.asHtml(item.body),
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </>
         </div>
       </main>
     </div>
@@ -119,10 +138,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       banner: {
         url: response.data.banner.url,
       },
-      content: {
-        heading: RichText.asText(response.data.content[0].heading),
-        body: RichText.asHtml(response.data.content[0].body),
-      },
+      content: response.data.content.map(content => {
+        return {
+          heading: RichText.asText(content.heading),
+          body: [...content.body],
+        };
+      }),
     },
   };
   return {
