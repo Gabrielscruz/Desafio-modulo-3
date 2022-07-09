@@ -146,7 +146,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       content: response.data.content.map(content => {
         return {
           heading: RichText.asText(content.heading),
-          body: RichText.asHtml(content.body),
+          body: [RichText.asHtml(content.body)],
         };
       }),
     },
