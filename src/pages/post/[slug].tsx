@@ -88,7 +88,7 @@ export default function Post({ post }: PostProps): JSX.Element {
                   <h3>{item.heading}</h3>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: item.body,
+                      __html: RichText.asHtml(item.body),
                     }}
                   />
                 </div>
@@ -150,6 +150,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       }),
     },
   };
+
   return {
     props: { post },
     redirect: 60 * 30,
