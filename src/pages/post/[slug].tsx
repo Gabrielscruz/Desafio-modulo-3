@@ -143,12 +143,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       banner: {
         url: response.data.banner.url,
       },
-      content: [
-        {
-          heading: RichText.asText(response.data.content[0].heading),
-          body: [...response.data.content[0].body],
-        },
-      ],
+      content: response.data.content.map(content => {
+        return {
+          heading: RichText.asText(content.heading),
+          body: [...content.body],
+        };
+      }),
     },
   };
 
