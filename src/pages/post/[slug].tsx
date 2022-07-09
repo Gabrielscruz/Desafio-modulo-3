@@ -4,6 +4,7 @@ import { FiCalendar, FiUser } from 'react-icons/fi';
 import { MdOutlineWatchLater } from 'react-icons/md';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom';
 import { useRouter } from 'next/router';
 import { getPrismicClient } from '../../services/prismic';
@@ -103,9 +104,9 @@ export default function Post({ post }: PostProps): JSX.Element {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const prismic = getPrismicClient();
-  const posts = await prismic.getByType('blogpost', {
-    pageSize: 1,
-  });
+  const posts = await prismic.query([
+    Prismic.Predicates.at('document.type', 'blogpost'),
+  ]);
 
   const paths = posts.results.map(post => {
     return {
@@ -120,7 +121,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: true,
   };
 };
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
 
