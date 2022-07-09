@@ -103,6 +103,7 @@ export default function Post({ post }: PostProps): JSX.Element {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const prismic = getPrismicClient();
+  // query
   const posts = await prismic.getByType('blogpost', {
     pageSize: 1,
   });
