@@ -88,7 +88,7 @@ export default function Post({ post }: PostProps): JSX.Element {
                   <h3>{item.heading}</h3>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: RichText.asHtml(item.body),
+                      __html: item.body,
                     }}
                   />
                 </div>
@@ -127,6 +127,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const prismic = getPrismicClient();
 
   const response = await prismic.getByUID('blogpost', String(slug), {});
+
   const post = {
     first_publication_date: format(
       new Date(response.first_publication_date),
