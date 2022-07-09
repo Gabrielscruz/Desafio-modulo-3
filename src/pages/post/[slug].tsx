@@ -42,7 +42,7 @@ export default function Post({ post }: PostProps): JSX.Element {
   function timeRead(): number {
     const AllText = post.data.content.map(item => {
       return (
-        RichText.asHtml(item.body).replace(/(<([^>]+)>)/gi, '') +
+        String(item.body).replace(/(<([^>]+)>)/gi, '') +
         item.heading.replace(/(<([^>]+)>)/gi, '')
       );
     });
@@ -88,7 +88,7 @@ export default function Post({ post }: PostProps): JSX.Element {
                   <h3>{item.heading}</h3>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: RichText.asHtml(item.body),
+                      __html: item.body,
                     }}
                   />
                 </div>
@@ -146,7 +146,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       content: response.data.content.map(content => {
         return {
           heading: RichText.asText(content.heading),
-          body: [...content.body],
+          body: RichText.asHtml(content.body),
         };
       }),
     },
